@@ -63,14 +63,15 @@ A simple HTTP-based service for calculating how best to fulfill an order quantit
 
 ### Via Frontend
 
-1. Open `frontend/index.html` in your browser.
+1. Visit the deployed Heroku app at [https://items-packs-calculator-f97c28fbf434.herokuapp.com](https://items-packs-calculator-f97c28fbf434.herokuapp.com),
+   or open `frontend/index.html` locally to run in your browser.
 2. Enter a number of items (e.g., 501).
 3. Click **Calculate**. A JSON result indicating your pack distribution will appear in the "Result" section.
 
 ### Via Curl
 
 ```bash
-curl -X POST "http://localhost:8080/calculate" \
+curl -X POST "https://items-packs-calculator-f97c28fbf434.herokuapp.com/calculate" \
   -H "Content-Type: application/json" \
   -d '{"items": 501}'
 ```
