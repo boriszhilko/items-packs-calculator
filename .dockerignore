@@ -1,0 +1,12 @@
+# .dockerignore for items-packs-calculator
+.DS_Store
+bin/
+dist/
+
+.git
+.idea/
+
+node_modules/
+coverage.out
+*.log
+*.tmp

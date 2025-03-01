@@ -1,0 +1,23 @@
+.cursorrules
+
+# Binaries and build outputs
+bin/
+dist/
+
+# OS-specific files
+.DS_Store
+
+# IDE/editor files
+.idea/
+.vscode/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Test coverage output
+coverage.out
+
+# Dependency directories
+node_modules/
+vendor/

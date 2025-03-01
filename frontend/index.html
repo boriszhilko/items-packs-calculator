@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pack Calculator</title>
+    <script>
+        async function calculate() {
+            const value = document.getElementById("itemsInput").value;
+            try {
+                const resp = await fetch("http://localhost:8080/calculate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ items: parseInt(value, 10) })
+                });
+                // If server responded with an error status, show text in #result
+                if (!resp.ok) {
+                    const errText = await resp.text();
+                    document.getElementById("result").innerText = "Error: " + errText;
+                    return;
+                }
+
+                // If no error, parse the JSON response
+                const data = await resp.json();
+                document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+            } catch (err) {
+                // If an actual network error or fetch error occurs
+                document.getElementById("result").innerText = "Error: " + err.message;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Pack Calculator</h1>
+    <label for="itemsInput">Items:</label>
+    <input type="number" id="itemsInput" value="501" />
+    <br /><br />
+    <button onclick="calculate()">Calculate</button>
+
+    <h2>Result</h2>
+    <pre id="result"></pre>
+</body>
+
+</html>
