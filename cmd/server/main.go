@@ -23,6 +23,10 @@ func main() {
 	}
 	mux.HandleFunc("/calculate", handler)
 
+	// Serve the "frontend" folder so users can access index.html at "/"
+	fileServer := http.FileServer(http.Dir("frontend"))
+	mux.Handle("/", fileServer)
+
 	// Read assigned port from environment (fallback to 8080 locally)
 	port := os.Getenv("PORT")
 	if port == "" {
