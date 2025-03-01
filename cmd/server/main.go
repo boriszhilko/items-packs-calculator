@@ -12,10 +12,7 @@ import (
 	"items-packs-calculator/api"
 )
 
-const (
-	shutdownTimeout = 5 * time.Second
-	serverAddr      = ":8080"
-)
+const shutdownTimeout = 5 * time.Second
 
 func main() {
 	mux := http.NewServeMux()
@@ -25,6 +22,13 @@ func main() {
 		log.Fatalf("Could not create handler: %v", err)
 	}
 	mux.HandleFunc("/calculate", handler)
+
+	// Read assigned port from environment (fallback to 8080 locally)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	serverAddr := ":" + port
 
 	server := &http.Server{
 		Addr:    serverAddr,
