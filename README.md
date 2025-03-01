@@ -53,11 +53,23 @@ A simple HTTP-based service for calculating how best to fulfill an order quantit
    ```
    - The backend server will start at `http://localhost:8080`.
 
-4. **Test**
-   ```bash
-   make test
-   ```
-   - Runs your Go tests across all packages.
+## Test
+
+### Unit Tests
+
+You can run all unit tests (excluding integration tests) with:
+
+```bash
+make test  # This will skip /test/ folder and run only unit tests
+```
+
+### Integration Tests
+
+The integration tests spin up an in-memory server to test the full HTTP flow. To run them:
+
+```bash
+make integration-test
+```
 
 ## Using the Application
 

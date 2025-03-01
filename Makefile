@@ -13,8 +13,12 @@ build:
 	@go build -o $(BIN_DIR)/$(BINARY_NAME) ./cmd/server
 
 test:
-	@echo "==> Running tests..."
-	@go test ./... -v
+	@echo "==> Running unit tests..."
+	@go test $(shell go list ./... | grep -v '/test') -v
+
+integration-test:
+	@echo "==> Running integration tests..."
+	@go test -v ./test
 
 run: build
 	@echo "==> Running the server..."
