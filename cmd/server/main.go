@@ -15,6 +15,8 @@ import (
 const shutdownTimeout = 5 * time.Second
 
 func main() {
+	log.Println("Starting server...")
+
 	mux := http.NewServeMux()
 
 	handler, err := api.NewCalculateHandler("configs/packs.json")

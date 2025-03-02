@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"items-packs-calculator/internal/config"
@@ -27,6 +28,18 @@ type CalculationRequest struct {
 type CalculationResponse struct {
 	PackDistribution map[int]int `json:"pack_distribution"`
 	TotalItems       int         `json:"total_items"`
+}
+
+// validateCalculationRequest checks if the request is valid.
+func validateCalculationRequest(req CalculationRequest) error {
+	if req.Items <= 0 {
+		return fmt.Errorf("items must be a positive integer")
+	}
+	// Limit items to 1,000,000 to prevent abuse
+	if req.Items > 1_000_000 {
+		return fmt.Errorf("items must be less than 1,000,000")
+	}
+	return nil
 }
 
 // NewCalculateHandler creates a handler for pack calculations, loading pack sizes from the config file
@@ -55,17 +68,20 @@ func NewCalculateHandler(configPath string) (http.HandlerFunc, error) {
 
 		var req CalculationRequest
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			log.Printf("Invalid JSON in request body: %v", err)
 			http.Error(w, "invalid request body", http.StatusBadRequest)
 			return
 		}
 
-		if req.Items <= 0 {
-			http.Error(w, "items must be a positive integer", http.StatusBadRequest)
+		if err := validateCalculationRequest(req); err != nil {
+			log.Printf("Validation error: %v, items=%d", err, req.Items)
+			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		distribution, err := packcalculator.CalculatePacks(req.Items, packSizes)
 		if err != nil {
+			log.Printf("Could not calculate packs: %v, items=%d", err, req.Items)
 			http.Error(w, err.Error(), http.StatusConflict)
 			return
 		}
@@ -77,6 +93,7 @@ func NewCalculateHandler(configPath string) (http.HandlerFunc, error) {
 			TotalItems:       total,
 		}
 
+		log.Printf("Successful calculation, items=%d, distribution=%v", req.Items, distribution)
 		w.Header().Set(headerContentType, contentTypeJSON)
 		json.NewEncoder(w).Encode(resp)
 	}, nil

@@ -22,8 +22,6 @@ type dpVal struct {
 //  3. Among solutions that achieve the same leftover, minimize the pack count
 //
 // It returns a map of packSize -> count of packs, or an error if packSizes is empty.
-//
-// This implementation uses a backtracking approach with pruning instead of the dynamic programming array.
 func CalculatePacks(items int, packSizes []int) (map[int]int, error) {
 	if len(packSizes) == 0 {
 		return nil, errors.New("no pack sizes provided")
