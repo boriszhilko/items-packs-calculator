@@ -42,7 +42,7 @@ A simple HTTP-based service for calculating how best to fulfill an order quantit
 
 2. **Clone & Build**
    ```bash
-   git clone https://github.com/yourusername/items-packs-calculator.git
+   git clone https://github.com/boriszhilko/items-packs-calculator.git
    cd items-packs-calculator
    make build
    ```
