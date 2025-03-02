@@ -14,14 +14,13 @@ import (
 
 const shutdownTimeout = 5 * time.Second
 
-func main() {
-	log.Println("Starting server...")
-
+// setupServer configures the HTTP server and returns it.
+func setupServer(configPath string) (*http.Server, error) {
 	mux := http.NewServeMux()
 
-	handler, err := api.NewCalculateHandler("configs/packs.json")
+	handler, err := api.NewCalculateHandler(configPath)
 	if err != nil {
-		log.Fatalf("Could not create handler: %v", err)
+		return nil, err
 	}
 	mux.HandleFunc("/calculate", handler)
 
@@ -41,13 +40,25 @@ func main() {
 		Handler: mux,
 	}
 
+	return server, nil
+}
+
+func main() {
+	log.Println("Starting server...")
+
+	server, err := setupServer("configs/packs.json")
+	if err != nil {
+		log.Fatalf("Could not create server: %v", err)
+	}
+
 	// Listen for OS signals
 	done := make(chan os.Signal, 1)
 	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
 	go func() {
-		log.Printf("HTTP server listening on %s", serverAddr)
-		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		log.Printf("HTTP server listening on %s", server.Addr)
+		if err := server.ListenAndServe(); err != nil &&
+			err != http.ErrServerClosed {
 			log.Fatalf("HTTP server error: %v", err)
 		}
 	}()
