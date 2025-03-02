@@ -8,7 +8,7 @@
         async function calculate() {
             const value = document.getElementById("itemsInput").value;
             try {
-                const resp = await fetch("http://localhost:8080/calculate", {
+                const resp = await fetch("/calculate", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ items: parseInt(value, 10) })

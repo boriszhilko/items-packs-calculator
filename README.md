@@ -75,8 +75,7 @@ make integration-test
 
 ### Via Frontend
 
-1. Visit the deployed Heroku app at [https://items-packs-calculator-f97c28fbf434.herokuapp.com](https://items-packs-calculator-f97c28fbf434.herokuapp.com),
-   or open `frontend/index.html` locally to run in your browser.
+1. Visit the deployed Heroku app at [https://items-packs-calculator-f97c28fbf434.herokuapp.com](https://items-packs-calculator-f97c28fbf434.herokuapp.com)
 2. Enter a number of items (e.g., 501).
 3. Click **Calculate**. A JSON result indicating your pack distribution will appear in the "Result" section.
 
