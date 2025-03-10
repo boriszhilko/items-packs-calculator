@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"items-packs-calculator/api"
+	"items-packs-calculator/internal/api"
 )
 
 // testConfigPath points to a small JSON file with test packSizes, e.g. configs/packs_test.json

@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	"items-packs-calculator/api"
+	"items-packs-calculator/internal/api"
 )
 
 const shutdownTimeout = 5 * time.Second
